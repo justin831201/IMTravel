@@ -1,0 +1,801 @@
+
+
+<!--
+
+background: #13252f;
+color: #82b4bd;
+
+-->
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+{% load staticfiles %}
+<link href="{% static "stylesheets/print.css" %}" media="screen, projection" rel="stylesheet" type="text/css" /> 
+<link href="{% static "stylesheets/animate.css" %}" media="screen, projection" rel="stylesheet" type="text/css" /> 
+<script src="{% static "js/jQuery.js" %}"></script>
+<script src="{% static "js/control.js" %}"></script>
+<script type="text/javascript">
+  var group = "全部";
+  var popScore = 6;
+  $(document).ready(function(){
+    $('.price').hover(function(){
+            $('.priceHover').css("display", "block");
+            var height = $('.priceHover').css("height");
+            var width = $('.priceHover').css("width");
+            $('.priceHover').css("left", (tempX-50)+"px")
+            $('.priceHover').css("top", (tempY-height)+"px")
+        }, function(){
+            $('.priceHover').css("display", "none");
+    });
+    $(".shopping").each(function(){
+        /* 如果現在有任何收藏行程 */
+        $("#plus").css("display", "none");
+        $("#pos1").css("display", "none");
+    });
+    $(".buy").click(function(){
+        /* 按了收藏之後 */
+        $("#plus").css("display", "none");
+        $("#pos1").css("display", "none");
+        var siteID = $('.sidebar').attr('id');
+        console.log(siteID);
+        var siteName = $('#sidebar-h1').text();
+        var siteCategory = $('#sidebar-h2').text();
+        var exist = false;
+        $(".shopping").each(function(){
+            console.log($(this).text())
+            if ($(this).text()==(siteName + siteCategory)) {
+                exist = true;
+            }
+        });
+        if (exist) {
+            alert("已經放入口袋囉～");
+        }
+        else {
+            var shoppingSite = '<div class="shopping" id="' + siteID + '">' + siteName + '<div class="cate">' + siteCategory + '</div><img src="{% static "img/remove.png" %}"></div>';
+            $("#shoppingCart").append(shoppingSite);
+            $(".shopping").click(function(){
+            if($(this).attr('id')==siteID) {
+                getSiteDetail(siteID);
+                for(var clickShopping=0;clickShopping<sites.length;clickShopping++) {
+                    if (sites[clickShopping].id == siteID) {
+                        sites[clickShopping].marker.setIcon(selectedcCordernate);
+                    }
+                    else {
+                        sites[clickShopping].marker.setIcon(coordernate);
+                    }
+                }
+            }
+            });
+            $(".shopping > img").click(function(){
+                /* 點了刪除之後 */
+                $("#plus").css("display", "block");
+                $("#pos1").css("display", "block");
+                $(this).parent(".shopping").remove();
+                $(".shopping").click
+                $(".shopping").each(function(){
+                    /* 如果現在有任何收藏行程 */
+                    $("#plus").css("display", "none");
+                    $("#pos1").css("display", "none");
+                });
+            });
+        }
+    });
+	$(".arrow").click(function(){
+		var id = $(this).attr('id');
+        getSiteDetail(id);
+	});
+});
+
+  $(document).ready(function(){
+	$(".travelData").addClass("animated","zoomIn");
+	$(".popularBtn").click(function(){
+        document.getElementById("s").value = "";
+        $(".searchWindow").css("display", "none");
+        $(".searchResult").remove();
+		popScore = $(this).text();
+        var active = false;
+        if ($(this).hasClass("active")) {
+            active = true;
+        };
+		$("#score").html("顯示所有景點");
+        $(".popularBtn").removeClass("active");
+        if (!active) {
+            var scoreString = "只顯示評價" + popScore + "分的景點";
+            $("#score").html(scoreString);
+            $(this).addClass("active");
+            for(var i=0;i<sites.length;i++){
+                sites[i].marker.setMap(null);
+                if (group=="全部") {
+                    if(sites[i].score==popScore) {
+                        sites[i].marker.setMap(map);
+                    }
+                }
+                else if (group=="學生") {
+                    if(sites[i].classmateScore==popScore) {
+                        sites[i].marker.setMap(map);
+                    }
+                }
+                else if (group=="情侶") {
+                    if(sites[i].coupleScore==popScore) {
+                        sites[i].marker.setMap(map);
+                    }
+                }
+                else if (group=="親子") {
+                    if(sites[i].childrenScore==popScore) {
+                        sites[i].marker.setMap(map);
+                    }
+                }
+                else if (group=="家庭") {
+                    if(sites[i].familyScore==popScore) {
+                        sites[i].marker.setMap(map);
+                    }
+                }
+            }
+        }
+        else {
+            $(this).removeClass("active");
+            popScore = 6
+            for(var i=0;i<sites.length;i++){
+                sites[i].marker.setMap(map);
+            }
+        };
+	});
+
+	$("#btnGrp > .btn").click(function(){
+		group = $(this).text();
+        var active = false;
+        if ($(this).hasClass("active")) {
+            active = true;
+        };
+		//alert(group);
+        document.getElementById("s").value = "";
+        $(".searchWindow").css("display", "none");
+        $(".searchResult").remove();
+        $("#group").html("顯示大眾總體評分");
+        $("#btnGrp > .btn").removeClass("active");
+		/* 下面每個 if 可以拿來寫 */
+        if (!active) {
+            $(this).addClass("active");
+		    if (group == "學生") {
+			    $("#group").html("顯示學生族群評分");
+			    for(var i=0;i<sites.length;i++) {
+				    sites[i].marker.setMap(null);
+                    if (popScore==6) {
+                        sites[i].marker.setMap(map);
+                    }
+				    else if (sites[i].classmateScore==popScore) {
+					    sites[i].marker.setMap(map);
+				    }
+			    }
+		    }
+		    else if (group == "情侶") {
+			    $("#group").html("顯示情侶族群評分");
+			    for (var i=0;i<sites.length;i++) {
+				    sites[i].marker.setMap(null);
+                    if (popScore==6) {
+                        sites[i].marker.setMap(map);
+                    }
+				    else if (sites[i].coupleScore==popScore) {
+					    sites[i].marker.setMap(map);
+				    }
+			    }
+		    }
+		    else if (group == "親子") {
+			    $("#group").html("顯示親子族群評分");
+			    for(var i=0;i<sites.length;i++) {
+				    sites[i].marker.setMap(null);
+                    if (popScore==6) {
+                        sites[i].marker.setMap(map);
+                    }
+				    else if (sites[i].childrenScore==popScore) {
+					    sites[i].marker.setMap(map);
+				    }
+			    }
+		    }
+		    else if (group == "家庭") {
+			    $("#group").html("顯示家庭族群評分");
+			    for(var i=0;i<sites.length;i++) {
+				    sites[i].marker.setMap(null);
+                    if (popScore==6) {
+                        sites[i].marker.setMap(map);
+                    }
+				    else if (sites[i].familyScore==popScore) {
+					    sites[i].marker.setMap(map);
+				    }
+			    }
+		    };
+        }
+        else {
+            group = "全部";
+            $(this).removeClass("active");
+            for(var i=0;i<sites.length;i++) {
+                sites[i].marker.setMap(null);
+                if (popScore==6) {
+                    sites[i].marker.setMap(map);
+                }
+                else if (sites[i].score == popScore) {
+                    sites[i].marker.setMap(map);
+                }
+            }
+        };
+	});
+});
+  $(document).ready(function(){
+                    {% for site in sites %}
+                    var groupLike{{site.id}} = [['學生', {{site.classmateScore}}],['情侶',{{site.coupleScore}}],['親子',{{site.childrenScore}}],['家庭',{{site.familyScore}}]];
+                    d3.select("#ugly-{{site.id}}").selectAll("div")
+                    .data(groupLike{{site.id}})
+                    .enter()
+                    .append("div")
+                    .style("width", function(d){
+                           return (d[1] * 20) + "px";
+                           })
+                    .style("height", "12px")
+                    .style("background", "#82b4bd")
+                    .style("margin-bottom", "10px");
+                    var genderLike{{site.id}} = [['男',{{site.boyScore}}],['女',{{site.girlScore}}]];
+                    d3.select("#ugly2-{{site.id}}").selectAll("div")
+                    .data(genderLike{{site.id}})
+                    .enter()
+                    .append("div")
+                    .style("height", function(d){
+                           return (d[1] * 15) + "px";
+                           })
+                    .style("width", "12px")
+                    .style("background", function(d,i){
+                           if (i == 0) {
+                           return "#82cef3";
+                           }
+                           else {
+                           return "#f09a9f";
+                           }
+                           })
+                    .style("margin-left", "10px")
+                    .style("margin-bottom", "-5px");
+                    {% endfor %}
+})
+
+  $(document).ready(function(){
+    $("#search > .btn").click(function(){
+        var str = document.getElementById('s').value;
+        group = "全部";
+        popScore = 6;
+        $(".searchWindow").css("display", "none");
+        $(".searchResult").remove();
+        $("#group").html("顯示大眾總體評分");
+        $("#btnGrp > .btn").removeClass("active");
+        $("#score").html("顯示所有景點");
+        $(".popularBtn").removeClass("active");
+        for (var j=0;j<sites.length;j++) {
+            sites[j].marker.setMap(null);
+        }
+        /* 監聽 */
+        $(".attraction").each(function(){
+            if($(this).find('h1').text().match(str) != null){
+                /* 如果任何字詞 match */
+                for (var i = sites.length - 1; i >= 0; i--) {
+                    var temp = 'site-' + sites[i].id;
+                    if(temp == $(this).find('.travelData').attr('id')){
+                        //attr[i].oo.setMap(null);
+                        sites[i].marker.setMap(map);
+                        sites[i].marker.setIcon(coordernate);
+                        //alert(temp);
+                        //attr[i].oo 是 map 物件
+                    }
+                }                            
+            }
+            //alert("fuck");
+        });
+    });
+    $('#s').bind('input propertychange', function() {
+        var str = document.getElementById('s').value;
+        $(".searchWindow").css("display", "none");
+        $(".searchResult").remove();
+        if (str != "") {
+            for (var i=0;i<sites.length;i++) {
+                //sites[i]
+                /* 把 site 的名稱叫出來放在 searchResult 就好 */
+                if (sites[i].name.includes(str)) {
+                    var searchResult = '<div class="searchResult" id="' + sites[i].id + '"><div class="title">' + sites[i].name + '</div>' + '<div class="cate">' + sites[i].category + '</div></div>';
+                    $(".searchWindow").append(searchResult);
+                    //$(".searchResult").each(function(){
+                    //    if ($(this).attr('id') == sites[i].id) {
+                    //        console.log(i);
+                    //    }
+                    //})
+                    $(".searchResult").click((function(i) {
+                        return function(){
+                            console.log(i);
+                            if($(this).attr('id') == sites[i].id) {
+                                $("input").val(sites[i].name);
+                                getSiteDetail(sites[i].id);
+                                for(var j=0;j<sites.length;j++) {
+                                    sites[j].marker.setMap(null);
+                                }
+                                sites[i].marker.setMap(map);
+                                sites[i].marker.setIcon(selectedcCordernate);
+                            }
+                            $(".searchWindow").css("display", "none");
+                            $(".searchResult").remove();
+                        };
+                    }(i)));
+                }
+            };
+        }
+        else {
+            for (var i=0;i<sites.length;i++) {
+                 sites[i].marker.setMap(map);
+            }
+        }
+        $(".searchResult").each(function() {
+            $(".searchWindow").css("display", "block");
+        });
+    });
+  });
+
+<!-- 取得滑鼠座標
+
+var tempX = 0
+var tempY = 0
+
+// Detect if the browser is IE or not.
+// If it is not IE, we assume that the browser is NS.
+var IE = document.all?true:false
+
+// If NS -- that is, !IE -- then set up for mouse capture
+if (!IE) document.captureEvents(Event.MOUSEMOVE)
+
+// Set-up to use getMouseXY function onMouseMove
+document.onmousemove = getMouseXY;
+
+// Temporary variables to hold mouse x-y pos.s
+
+
+// Main function to retrieve mouse x-y pos.s
+
+function getMouseXY(e) {
+  if (IE) { // grab the x-y pos.s if browser is IE
+    tempX = event.clientX + document.body.scrollLeft
+    tempY = event.clientY + document.body.scrollTop
+  } else {  // grab the x-y pos.s if browser is NS
+    tempX = e.pageX
+    tempY = e.pageY
+  }  
+  // catch possible negative values in NS4
+  if (tempX < 0){tempX = 0}
+  if (tempY < 0){tempY = 0}  
+  // show the position values in the form named Show
+  // in the text fields named MouseX and MouseY
+  return true
+}
+
+//-->
+
+
+</script>
+<head>
+    <title>Demo</title>
+    <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge">
+	<style>
+	
+	html, body { 
+		height: 100%; margin: 0; padding: 0; 
+	}
+	#map { 
+		height: 100%; 
+	}
+
+    .map-control {
+    	background-color: black;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+        font-family: 'Roboto','sans-serif';
+        margin: 10px;
+        /* Hide the control initially, to prevent it from appearing
+           before the map loads. */
+        /*display: none;*/
+	}
+
+	#map .map-control { 
+		display: block; 
+	}
+	</style>
+</head>
+<body>
+    <div class="priceHover">
+    </div>
+<div id="map"></div>
+<div id="search">
+    <input type="text" value="" name="s" id="s" placeholder="  搜尋景點">
+    <div class="btn">搜尋</div>
+    <div class="searchWindow"></div>
+</div>
+
+<div class="square" id="shoppingCart">
+    <img id="plus" src="{% static "img/plus.png" %}">
+    <div class="topic" id="pos1">
+        行程收藏口袋
+    </div>
+</div>
+<div class="square" id="control">
+    <div class="topic" id="pos2">
+        評價好壞
+        <div class="comment" id="score">顯示所有景點</div>
+        <div class="popularSelec">
+            <div class="popularBtn">5</div>
+            <div class="popularBtn">4</div>
+            <div class="popularBtn">3</div>
+            <div class="popularBtn">2</div>
+            <div class="popularBtn">1</div>
+        </div>
+    </div>
+    <div class="topic" id="pos3">
+        評分族群
+        <div class="comment" id="group">顯示大眾總體評分</div>
+    </div>
+    <div id="btnGrp">
+        <div class="btn">學生</div>
+        <div class="btn">情侶</div>
+        <div class="btn">親子</div>
+        <div class="btn">家庭</div>
+    </div>
+</div>
+{% for site in sites %}
+<div class="attraction">
+    <div class="square travelData displayNone" id="site-{{site.id}}">
+        <div class="clickText">點擊查看詳細</div>
+        <div class="text">
+            <h1>{{site.name}}</h1>
+            <h2>{{site.cat}}</h2>
+            <div class="tag">
+                {% for keyword in site.keywords %}
+                -{{keyword}}<br>
+                {% endfor %}
+            </div>
+            <br>
+            <div class="numAndScore">
+                <div class="inlineBlock">總分</div><div class="scoreBtn">{{site.score}}</div>
+            </div>
+        </div>
+        <div class="d3">
+            <div class="grpGraph">
+                <div class="grpTitleGrp">
+                    學生<br>
+                    情侶<br>
+                    親子<br>
+                    家庭
+                </div>
+                <div class="graphBorder">
+                    <div class="ugly" id="ugly-{{site.id}}"></div>
+                </div>
+                <div class="scoreTitleGrp">
+                    1&nbsp&nbsp
+                    2&nbsp&nbsp
+                    3&nbsp&nbsp
+                    4&nbsp&nbsp
+                    5
+                </div>
+            </div>
+            <div class="genderGraph">
+                <div class="ugly2" id="ugly2-{{site.id}}"></div>
+                <div class="genderTitleGrp">
+                    男&nbsp
+                    女
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<div class="square sidebar displayNone" id="">
+    <div class="travelDataMore">
+        <div class="text">
+            <h1 id="sidebar-h1"></h1>
+            <h2 id="sidebar-h2"></h2>
+            <br>
+            <div class="tag" id="sidebar-tags">
+            </div>
+            <div class="numAndScore">
+                總文章數 <div class="inlineBlock" id="sidebar-times"></div> 篇 <br>
+                <div class="inlineBlock">總分</div><div class="scoreBtn" id="sidebar-score"></div>
+                <div class="buy">
+                    <img src="{% static "img/pocket.png" %}">
+                        <div class="inlineBlock">放入口袋</div>
+                        </div>
+            </div>
+            <div class="d3">
+                <div class="title">評價</div>
+                <div class="grpGraph">
+                    <div class="grpTitleGrp">
+                    				學生<br>
+                                    情侶<br>
+                                    親子<br>
+                                    家庭
+                    </div>
+                    <div class="graphBorder">
+                        <div id="fuck"></div>
+                    </div>
+                    <div class="scoreTitleGrp">
+                        1&nbsp&nbsp
+                        2&nbsp&nbsp
+                        3&nbsp&nbsp
+                        4&nbsp&nbsp
+                        5
+                    </div>
+                </div>
+                <div class="genderGraph">
+                    <div id="fuck2"></div>
+                    <div class="genderTitleGrp">
+                        男&nbsp
+                        女
+                    </div>
+                </div>
+                        
+            </div>
+            <div class="price">
+                <img src="{% static "img/money.png" %}">
+                <div id="priceText">商品價格</div>
+            </div>
+            <h1 class="block">景點資訊</h1>
+            <h2 id="sidebar-info"></h2>
+            <h1 class="block">開放時間</h1>
+            <h2 id="sidebar-time"></h2>
+            <h1 class="block">景點地址</h1>
+            <h2 id="sidebar-address"></h2>
+            <h1 class="block">交通方式</h1>
+            <h2 id="sidebar-transportation"></h2>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+var map;
+var Taipei = {lat: 25.100, lng: 121.55};
+var sites = new Array();
+
+function mouseX() {
+	$(document).mousemove(function(e){
+		return(e.offsetX);
+	});
+}
+
+function Marker(marker, id, name, score, category, classmateAsset, classmateScore, coupleAsset, coupleScore, familyAsset, familyScore, childrenAsset, childrenScore, boyAsset, girlAsset, boyScore, girlScore) {
+    this.marker = marker;
+    this.id = String(id);
+    this.name = name;
+    this.score = score;
+    this.category = category;
+    this.classmateAsset = classmateAsset;
+    this.classmateScore = classmateScore;
+    this.coupleAsset = coupleAsset;
+    this.coupleScore = coupleScore;
+    this.familyAsset = familyAsset;
+    this.familyScore = familyScore;
+    this.childrenAsset = childrenAsset;
+    this.childrenScore = childrenScore;
+    this.boyAsset = boyAsset;
+    this.boyScore = boyScore;
+    this.girlAsset = girlAsset;
+    this.girlScore = girlScore;
+}
+
+function initMap() {
+
+	var customMapType = new google.maps.StyledMapType([{
+			featureType: 'all',
+			stylers: [{ saturation: -60 }]
+		}, 
+			{
+			stylers: [{ hue: '#132528' }, { gamma: 0.9 }]
+		},
+			{
+			elementType: 'labels',
+			stylers: [{ visibility: 'on' }]
+		},
+			{
+			featureType: 'water',
+			stylers: [{ color: '#13252f' }]
+		},
+            {
+            featureType: "poi",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        },
+            {
+            featureType: "transit.station",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        }
+    ],
+		{
+			name: 'Custom Style',
+            maxZoom: 13,
+            minZoom: 11
+	});
+	var customMapTypeId = 'custom_style';
+
+		// Create a map object and specify the DOM element for display.
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: Taipei,
+		zoom: 12,
+        disableDefaultUI: true,
+        scaleControl: true
+	});
+
+	map.mapTypes.set(customMapTypeId, customMapType);
+	map.setMapTypeId(customMapTypeId);
+
+    var counter = 0;
+    {% for site in sites %}
+    var site_{{site.id}} = new google.maps.Marker({
+		position: map.getCenter(),
+		icon: coordernate,
+		place: {
+            location: {lat: {{site.latitude}}, lng: {{site.longitude}}},
+            query: 'site-{{site.id}}'
+		},
+		draggable: false,
+		map: map
+	});
+    sites[counter] = new Marker(site_{{site.id}}, "{{site.id}}", "{{site.name}}", {{site.score}}, "{{site.cat}}", {{site.classmateAsset}}, {{site.classmateScore}}, {{site.coupleAsset}}, {{site.coupleScore}}, {{site.familyAsset}}, {{site.familyScore}}, {{site.childrenAsset}}, {{site.childrenScore}}, {{site.boyAsset}}, {{site.girlAsset}}, {{site.boyScore}}, {{site.girlScore}});
+    counter++;
+    {% endfor %}
+
+	for (var j=0;j<sites.length;j++) {
+		sites[j].marker.setMap(null);
+        if (popScore==6) {
+            sites[j].marker.setMap(map);
+        }
+		else if (sites[j].score==popScore) {
+			sites[j].marker.setMap(map);
+		}
+	}
+    console.log(sites.length);
+    for(let i=0;i<sites.length;i++) {
+        //var siteID = '#site-' + sites[i]['id'];
+        //(function (i){
+            google.maps.event.addDomListener(sites[i]['marker'], 'mouseover', function() {
+                console.log(i);
+                var siteID = '.attraction > #site-' + sites[i]['id'];
+                $(siteID).removeClass("displayNone");
+                $('.attraction').css("left", (tempX - 150)+"px")
+                $('.attraction').css("top", (tempY - 100)+"px")
+                //alert(tempX);
+            });
+        //})(i);
+        //(function (i){
+            google.maps.event.addDomListener(sites[i]['marker'], 'mouseout', function() {
+                var siteID = '.attraction > #site-' + sites[i]['id'];
+                $(siteID).addClass("displayNone");
+            });
+        //})(i);
+        //(function (i){
+            google.maps.event.addDomListener(sites[i]['marker'], 'click', function() {
+                for (var text=0;text<sites.length;text++) {
+                    sites[text].marker.setIcon(coordernate);
+                }
+                sites[i].marker.setIcon(selectedcCordernate);
+                clickMarker = true;
+                var id = sites[i].id;
+                getSiteDetail(id);
+            });
+        //})(i);
+        
+    }
+}
+
+
+var coordernate = {
+path: "M 50 50 L -25 -100 L 125 -100 z",
+fillColor: '#13252f',
+fillOpacity: 0.9,
+scale: 0.12
+};
+
+var selectedcCordernate = {
+path: "M 50 50 L -25 -100 L 125 -100 z",
+fillColor: '#f74343',
+fillOpacity: 0.9,
+scale: 0.12
+};
+
+function getSiteDetail(siteID) {
+    $(".sidebar").removeClass("displayNone");
+    $(".sidebar").attr('id', siteID);
+    $.ajax({
+        type: "GET",
+        url: "{% url 'site-detail' %}?id="+siteID,
+        success: function(msg){
+            $("#fuck > div").remove();
+            $("#fuck2 > div").remove();
+            var groupLike = [['學生',msg[0]['classmateScore']],['情侶',msg[0]['coupleScore']],['親子',msg[0]['childrenScore']],['家庭',msg[0]['familyScore']]];
+            d3.select("#fuck").selectAll("div")
+                .data(groupLike)
+                .enter()
+                .append("div")
+                .style("width", function(d){
+                    return (d[1] * 20) + "px";
+                })
+                .style("height", "12px")
+                .style("background", "#82b4bd")
+                .style("margin-bottom", "10px");
+            var genderLike = [['男',msg[0]['boyScore']],['女',msg[0]['girlScore']]];
+            d3.select("#fuck2").selectAll("div")
+                .data(genderLike)
+                .enter()
+                .append("div")
+                .style("height", function(d){
+                    return (d[1] * 15) + "px";
+                })
+                .style("width", "12px")
+                .style("background", function(d,i){
+                    if (i == 0) {
+                        return "#82cef3";
+                    }
+                    else {
+                        return "#f09a9f";
+                    }
+                })
+                .style("margin-left", "10px")
+                .style("margin-bottom", "-5px");
+            $('#sidebar-h1').html(msg[0]['name']);
+            if (msg[0]['productNumber'] > 0) {
+                $(".price").css("display", "block");
+                $('.priceGrp').remove();
+                var appendProduct = '';
+                var justin = 0
+                for(var product=0;product<msg[0]['productNumber'];product++) {
+                    appendProduct = appendProduct + '<div class="priceGrp"><div class="priceTitle">' + msg[0]['productName'][product] + '</div><div class="priceNum">';
+                    for(var productNumber=0;productNumber<msg[0]['productEachNumber'][product];productNumber++) {
+                        appendProduct = appendProduct + msg[0]['productPrice'][justin] + '元<br>';
+                        justin++;
+                    }
+                    appendProduct = appendProduct + '</div></div>';
+                }
+                $(".priceHover").html(appendProduct);
+            }
+            else {
+                $(".price").css("display", "none");
+            }
+            $('#sidebar-h2').html(msg[0]['category']);
+            var temp = msg[0]['keywords'].replace(/\'/g,'"');
+            var keywords = JSON.parse(temp);
+            $('#sidebar-tags').html('<div class="tagSub">-'+keywords.join('</div><div class="tagSub">-')+'</div>');
+            $('#sidebar-transportation').html(msg[0]['transportation']);
+            $('#sidebar-score').html(msg[0]['score']);
+            $('#sidebar-times').html(msg[0]['time']);
+            $('#sidebar-address').html(msg[0]['address']);
+            $('#sidebar-time').html(msg[0]['openTime']);
+            $('#sidebar-info').html(msg[0]['info']);
+        }
+    })
+    //alert('remove');
+}
+
+var clickMarker = false;
+
+$('#map').click(function(){
+    if(!clickMarker){
+        $(".sidebar").addClass("displayNone");
+        //alert("fuck");
+        for(var temp=0;temp<sites.length;temp++) {
+            sites[temp].marker.setIcon(coordernate);
+        }
+    }
+    clickMarker = false;
+});
+
+setInterval(function(){
+    $('.attraction').css("left", (tempX+2)+"px")
+    $('.attraction').css("top", (tempY+2)+"px")
+}, 1);
+
+/* final */
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNnJWhLyIloUQr4nUFGtqeoPR8HX9d2eU&callback=initMap"
+async defer>
+</script>
+<script src="https://d3js.org/d3.v4.js"></script>
+
+</html>

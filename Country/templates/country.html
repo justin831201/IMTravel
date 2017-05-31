@@ -1,0 +1,21 @@
+<! DOCTYPE html>
+<html>
+    <head>
+        {% load staticfiles %}
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+        <title></title>
+        
+    </head>
+    <body>
+        {% include 'navigationBar.html' %}
+        <div>
+            {{ countryCandidate.chinese_name }}
+        </div>
+        {% for region in regions %}
+        <div>
+            <a href={% url 'region' %}?country={{countryCandidate.chinese_name}}&region={{region.chinese_name}}>{{ region.chinese_name }}</a>
+        </div>
+        {% endfor %}
+    </body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load staticfiles %}
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>地區</title>
+    </head>
+    <body>
+        {% include 'navigationBar.html' %}
+        <div>
+            {{regionCandidate.chinese_name}}
+        </div>
+        {% for site in sites %}
+        <div>
+            <a href={% url 'site' %}?site={{site.id}}>{{site.name}}</a>
+        </div>
+        {% endfor %}
+    </body>
+</html>

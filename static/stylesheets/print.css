@@ -1,0 +1,828 @@
+@charset "UTF-8";
+/* Welcome to Compass. Use this file to define print styles.
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" /> */
+/* line 7, ../sass/print.scss */
+body {
+  font-family: PingFangSC-semibold, sans-serif;
+  background: #13252f;
+  background-image: url("../img/line.png");
+  color: #82b4bd;
+  width: 1280px;
+}
+
+/* line 16, ../sass/print.scss */
+#search {
+  position: absolute;
+  background: white;
+  top: 25px;
+  right: 2%;
+  width: 250px;
+  height: 38px;
+  border-radius: 2px;
+}
+/* line 25, ../sass/print.scss */
+#search #text {
+  position: absolute;
+  color: #aaa;
+  font-size: 17px;
+  line-height: 38px;
+  left: 10px;
+}
+/* line 32, ../sass/print.scss */
+#search .btn {
+  position: absolute;
+  background: #82b4bd;
+  right: 0%;
+  height: 100%;
+  width: 80px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  color: white;
+  text-align: center;
+  font-size: 17px;
+  font-weight: lighter;
+  line-height: 38px;
+  top: 0;
+  cursor: pointer;
+}
+
+#s {
+  display: inline-block;
+  width: 67%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-size: 17px;
+  border: 0;
+  border-radius: 5px;
+}
+
+/* line 49, ../sass/print.scss */
+#taipei {
+  position: fixed;
+  width: 1400px;
+  left: -50px;
+  top: -30%;
+  z-index: -1;
+}
+
+/* line 57, ../sass/print.scss */
+.square {
+  position: absolute;
+  background-color: rgba(17, 37, 47, 0.9);
+  border: 1px #82b4bd solid;
+  color: #ccc;
+}
+/* line 63, ../sass/print.scss */
+.square h1 {
+  font-size: 24px;
+  margin: 0;
+  margin-top: 22px;
+}
+/* line 68, ../sass/print.scss */
+.square h2 {
+  font-size: 14px;
+  margin: 0;
+  margin-top: 2px;
+}
+/* line 74, ../sass/print.scss */
+.square .tag {
+  color: #fd3c3c;
+  font-size: 14px;
+  margin-top: 6px;
+}
+/* line 80, ../sass/print.scss */
+.square .topic {
+  position: absolute;
+  width: 100%;
+  color: #cccccc;
+  text-align: center;
+}
+/* line 87, ../sass/print.scss */
+.square .btn {
+  display: inline-block;
+  background-color: rgba(17, 37, 47, 0.7);
+  border: 1px #82b4bd solid;
+  width: 43%;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #ccc;
+  font-size: 15px;
+  cursor: pointer;
+  margin: 0;
+  margin-left: 3%;
+  margin-bottom: 12px;
+}
+/* line 103, ../sass/print.scss */
+.square .btn:hover {
+  background-color: #82b4bd;
+  color: #13252f;
+}
+
+/* line 110, ../sass/print.scss */
+#shoppingCart {
+  width: 210px;
+  height: 250px;
+  left: 30px;
+  top: 80px;
+}
+/* line 116, ../sass/print.scss */
+#shoppingCart #plus {
+  position: absolute;
+  width: 30%;
+  left: 35%;
+  top: 25%;
+  opacity: 0.5;
+}
+/* line 123, ../sass/print.scss */
+#shoppingCart #pos1 {
+  opacity: 0.5;
+  top: 60%;
+}
+
+/* line 130, ../sass/print.scss */
+#control {
+  width: 210px;
+  height: 250px;
+  left: 30px;
+  top: 330px;
+}
+/* line 136, ../sass/print.scss */
+#control #bar {
+  position: absolute;
+  background: #0d1a21;
+  width: 64%;
+  height: 21px;
+  left: 18%;
+  top: 24%;
+  border-radius: 7px;
+}
+/* line 145, ../sass/print.scss */
+#control #bar #handle {
+  width: 22px;
+  height: 22px;
+  background: #82b4bd;
+  border-radius: 50%;
+}
+/* line 152, ../sass/print.scss */
+#control #pos2 {
+  top: 10%;
+}
+/* line 155, ../sass/print.scss */
+#control #pos3 {
+  top: 41%;
+}
+/* line 158, ../sass/print.scss */
+#control #btnGrp {
+  position: absolute;
+  width: 92%;
+  left: 4%;
+  height: 100px;
+  bottom: 10px;
+}
+
+/* line 171, ../sass/print.scss */
+.attraction {
+  position: absolute;
+  /* 舊座標
+  .coordernate {
+  	position: absolute;
+  	opacity: 0.87;
+  	cursor: pointer;
+  	padding-left: 20px;
+  }
+  */
+}
+/* line 175, ../sass/print.scss */
+.attraction:hover .travelData {
+  display: block;
+}
+/* line 187, ../sass/print.scss */
+.attraction .travelData {
+  width: 300px;
+  height: 200px;
+  overflow: hidden;
+}
+/* line 194, ../sass/print.scss */
+.attraction .travelData .text {
+  position: absolute;
+  left: 24px;
+}
+/* line 198, ../sass/print.scss */
+.attraction .travelData .arrow {
+  position: absolute;
+  bottom: 28px;
+  left: 24px;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+/* line 206, ../sass/print.scss */
+.attraction .travelData .arrow img {
+  vertical-align: -18%;
+  margin-right: 7px;
+}
+
+/* line 214, ../sass/print.scss */
+.sidebar {
+  right: -1px;
+  top: 0;
+  height: 100%;
+  width: 300px;
+  border-top: 0px;
+  border-bottom: 0px;
+}
+/* line 224, ../sass/print.scss */
+.sidebar .travelDataMore {
+  animation-duration: 1s;
+  animation-name: fadeIn;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+/* line 231, ../sass/print.scss */
+.sidebar .travelDataMore .text {
+  margin-left: 25px;
+}
+
+/* line 238, ../sass/print.scss */
+.demo {
+  position: absolute;
+  right: 16px;
+  top: 30px;
+}
+
+/* line 244, ../sass/print.scss */
+.displayNone {
+  display: none;
+}
+
+@keyframes slide {
+  from {
+    right: -350px;
+  }
+  to {
+    right: -1px;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.comment {
+  font-family: PingFangSC-Light, sans-serif;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+#popular {
+  display: inline-block;
+  margin: 3px;
+}
+
+.popularBtn {
+  display: inline-block;
+  width: 26px;
+  border: #82b4bd 1px solid;
+  cursor: pointer;
+}
+
+.popularBtn:hover {
+  background: #82b4bd;
+  color: #13252f;
+}
+
+.active {
+  background: #82b4bd;
+  color: #13252f;
+}
+
+.square .active {
+  background: #82b4bd;
+  color: #13252f;
+}
+
+#control #pos2 {
+  top: 7%;
+}
+
+#control #pos3 {
+  top: 42%;
+}
+
+#control #btnGrp {
+  bottom: 0px;
+}
+
+/*new5更新*/
+#shoppingCart {
+    height: 230px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#control {
+    top: 310px;
+    height: 260px;
+}
+
+#search {
+    width: 340px;
+    right: 38%;
+}
+
+#s {
+    width: 76%;
+    border-radius: 0px;
+    border: rgba(0, 0, 0, 0.2) 1px solid;
+}
+
+.searchResult {
+    margin-left: 0px;
+    width: 100%;
+    height: 55px;
+    background: #13252f;
+    border: rgba(0, 0, 0, 0.2) 1px solid;
+    border-top: 0px;
+    cursor: pointer;
+    line-height: 58px;
+}
+
+.searchResult .title {
+    line-height: 55px;
+    color: #cccccc;
+    font-size: 18px;
+    margin-left: 15px;
+    display: inline-block;
+    width: 60%;
+    line-height: 18px;
+}
+
+.searchResult .cate {
+    font-family: PingFangSC-Regular, sans-serif;
+    position: relative;
+    display: inline-block;
+    left: 5%;
+    font-size: 14px;
+    vertical-align: 2%;
+}
+
+.shopping {
+    width: 100%;
+    height: 50px;
+    background: rgba(19, 37, 47, 0.8);
+    border-bottom: rgba(204, 204, 204, 0.3) 1px solid;
+    line-height: 50px;
+    font-size: 18px;
+    padding-left: 25px;
+    cursor: pointer;
+}
+
+.shopping .cate {
+    position: relative;
+    display: inline-block;
+    font-size: 13px;
+    vertical-align: 2%;
+    margin-left: 2px;
+    color: #82b4bd;
+}
+
+.shopping img {
+    position: absolute;
+    width: 15px;
+    right: 13px;
+    margin-top: 18px
+}
+
+.shopping:hover {
+    background-color: #82b4bd;
+    color: rgba(19, 37, 47, 1);
+}
+
+.shopping:hover .cate {
+    color: rgba(19, 37, 47, 1);
+}
+
+.searchResult:hover {
+    background-color: #82b4bd;
+    color: rgba(19, 37, 47, 1);
+}
+
+.searchResult:hover .title {
+    color: rgba(19, 37, 47, 1);
+}
+
+.searchWindow {
+    width: 76%;
+    height: 310px;
+    overflow: scroll;
+    display: none;
+}
+
+.buy {
+    font-family: PingFangSC-Regular, sans-serif;
+    color: white;
+    font-size: 18px;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+.buy img {
+    width: 40px;
+    vertical-align: -30%;
+    margin-right: 10px;
+}
+
+.sidebar {
+    width: 310px;
+    overflow: scroll;
+}
+
+.text h1 {
+    display: inline-block;
+    max-width: 200px;
+    min-width: 60px;
+    word-break: break-all;
+}
+
+.text h2 {
+    display: inline-block;
+    margin-left: 5px;
+    margin-bottom: 12px;
+}
+
+.square .tag {
+    width: 150px;
+    display: inline-block;
+    margin-top: 0;
+}
+
+.tagSub {
+    display: inline-block;
+    width: 70px;
+    margin-bottom: 1px;
+    font-family: PingFangSC-Regular, sans-serif;
+}
+
+.numAndScore {
+    font-family: PingFangSC-Regular, sans-serif;
+    display: inline-block;
+    font-size: 13px;
+    vertical-align: top;
+    letter-spacing: 0.3px;
+}
+
+.scoreBtn {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border: #cccccc 1px solid;
+    text-align: center;
+    line-height: 25px;
+    margin: 6px;
+}
+
+.inlineBlock {
+    display: inline-block;
+}
+
+
+.buy {
+    width: 84px;
+    height: 19px;
+    border: #cccccc 1px solid;
+    text-align: center;
+    margin-top: 9px;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    color: #cccccc;
+    font-size: 13px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.buy img {
+    width: 20px;
+    vertical-align: -25%;
+    margin-right: 5px;
+}
+
+.buy:hover {
+    background: #82b4bd;
+    color: white;
+}
+
+.d3 {
+    margin-top: 20px;
+}
+
+.d3 .title {
+    width: 90%;
+    text-align: center;
+    height: 30px;
+    border-bottom: #cccccc 1px solid;
+}
+
+.grpGraph {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+}
+
+.grpTitleGrp {
+    font-family: PingFangSC-Regular, sans-serif;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.grpGraph .graphBorder {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border-bottom: #cccccc 1px solid;
+    border-left: #cccccc 1px solid;
+    vertical-align: -60%;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+.scoreTitleGrp {
+    position: relative;
+    left: 48px;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+#fuck {
+    margin-top: 11px;
+}
+
+#fuck2 {
+    border-bottom: #cccccc 1px solid;
+    position: absolute;
+    bottom: 36px;
+    width: 60px;
+}
+
+#fuck2 div{
+    display: inline-block;
+}
+
+.genderGraph {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 150px;
+    margin-left: 15px;
+    vertical-align: bottom;
+}
+
+.genderTitleGrp {
+    position: absolute;
+    font-size: 13px;
+    bottom: 15px;
+    left: 9px;
+}
+
+h1.block {
+    display: block;
+}
+
+.text h2 {
+    margin-left: 0px;
+    width: 90%;
+}
+
+h2#sidebar-h2 {
+    /* .text h2 90% */
+    width: auto;
+}
+
+#sidebar-transportation {
+    margin-bottom: 100px;
+}
+
+.price {
+    margin-left: 70px;
+    margin-top: 10px;
+}
+
+.price img {
+    width: 40px;
+}
+
+#priceText {
+    display: inline-block;
+    vertical-align: 50%;
+}
+
+/* new N */
+.numAndScore {
+    margin-top: 8px;
+}
+
+.clickText {
+    position: relative;
+    width: 90%;
+    left: 5%;
+    height: 30px;
+    line-height: 32px;
+    font-size: 14px;
+    border-bottom: #cccccc 2px solid;
+    letter-spacing: 2px;
+}
+
+.attraction .travelData .text {
+    left: 20px;
+}
+
+.text h1 {
+    font-family: PingFangSC-Regular, sans-serif;
+    margin-top: 7px;
+    max-width: 150px;
+    font-size: 26px;
+    letter-spacing: 1px;
+    margin-right: 10px;
+}
+
+.text h2 {
+    width: 150px;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.square .tag {
+    margin: 2px;
+    margin-top: 6px;
+}
+
+.attraction .travelData {
+    height: 215px;
+    width: 340px;
+}
+
+.travelData .numAndScore {
+    position: absolute;
+    margin-top: 0;
+    top: 12px;
+    right: 34px;
+}
+
+.travelData .d3 {
+    margin-left: 100px;
+    margin-top: 37px;
+}
+
+.travelData .genderGraph {
+    margin-left: 0px;
+}
+
+.scoreBtn {
+    border-radius: 50%;
+    background: #82b4bd;
+    color: #13252f;
+    border: 0;
+}
+
+.square .tag {
+    font-family: PingFangSC-Regular, sans-serif;
+    color: #f74343;
+}
+
+.sidebar .text h1 {
+    margin-top: 20px;
+}
+
+
+.sidebar .text h2 {
+    margin-left: 0px;
+    width: 90%;
+    font-size: 16px;
+}
+
+.ugly {
+    margin-top: 11px;
+}
+
+.ugly2 {
+    border-bottom: #cccccc 1px solid;
+    position: absolute;
+    bottom: 36px;
+    width: 60px;
+}
+
+.ugly2 div{
+    display: inline-block;
+}
+
+
+.shoppping {
+  padding-left: 13px;
+}
+
+.shopping .cate {
+  margin-left: 7px;
+}
+
+.text h1 {
+  max-width: 220px;
+  font-size: 24px;
+  line-height: 26px;
+  margin-top: 13px;
+}
+
+.text h2 {
+  width: 170px;
+}
+
+.square .tag {
+  margin-top: 4px;
+  line-height: 22px;
+}
+
+/*new Price*/
+.price {
+    cursor: pointer;
+}
+
+/*3 */
+.shopping {
+    line-height: 20px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    height: auto;
+}
+
+.shopping img {
+    margin-top: 3px;
+}
+
+.shopping .cate {
+    width: 100px;
+}
+
+/* RWD */
+
+body {
+/*    width: auto;*/
+}
+
+@media (max-height: 500px){
+    #control {
+        top: 230px;
+        left: 0;
+    }
+    #shoppingCart {
+        top: 0;
+        left: 0;
+    }
+}
+
+/*newfinal*/
+/* final */
+
+.priceHover {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    color: #13252f;
+    font-size: 18px;
+    padding-top: 5px;
+    display: none;
+    padding-bottom: 10px;
+}
+
+.priceGrp {
+    margin-left: 10px;
+    padding-right: 10px;
+}
+
+.priceTitle {
+    display: inline-block;
+    width: 150px;
+}
+
+.priceNum {
+    right: 0px;
+    text-align: right;
+    margin-top: -25px;
+}
+
+#search .btn {
+    border: rgba(255, 255, 255, 0.1) 1px solid;
+}
+
+.priceHover {
+    z-index: 1;
+    width: auto;
+    height: auto;
+}

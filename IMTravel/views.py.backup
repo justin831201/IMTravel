@@ -1,0 +1,93 @@
+from django.shortcuts import render_to_response
+from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponseRedirect
+from django.template import RequestContext
+from Country.models import Country
+from Site.models import Site
+from Country.models import Region
+from pymongo import MongoClient
+
+def index(request):
+    #countries = Country.objects.all()
+    biggerThan = 2.3
+    minus = 1.7
+    multiple = 1.8
+    divide = 1
+    client = MongoClient(port=27017)
+    db = client["imtravel"]
+    scoreCollections = db["台北score"]
+    keywordCollections = db["台北keyword"]
+    scores = list(scoreCollections.find({}))
+    keywords = list(keywordCollections.find({}))
+    taipei = Region.objects.get(chinese_name="台北")
+    oldSites = Site.objects.filter(region=taipei, isOpen=True)
+    sites = []
+    for site in oldSites:
+        site.score = None
+        site.childrenAsset = None
+        site.classmateAsset = None
+        site.coupleAsset = None
+        site.familyAsset = None
+        site.keywords = None
+        site.childrenScore = 1
+        site.classmateScore = 1
+        site.coupleScore = 1
+        site.familyScore = 1
+        site.boyAsset = None
+        site.girlAsset = None
+        site.boyScore = 1
+        site.girlScore = 1
+        for score in scores:
+            if score['site'] == site.name:
+                if score['score'] >= biggerThan:
+                    site.score = round((score['score']-minus)*multiple/divide)
+                    if site.score > 5:
+                        site.score = 5
+                else:
+                    site.score = 1
+                site.classmateAsset = score['classmateTimes']
+                site.coupleAsset  = score['coupleTimes']
+                site.familyAsset = score['familyTimes']
+                site.childrenAsset = score['childTimes']
+                site.boyAsset = score['boyTimes']
+                site.girlAsset = score['girlTimes']
+                if score['boyScore'] >= biggerThan:
+                    site.boyScore = round((score['boyScore']-minus)*multiple/divide)
+                    if site.boyScore >5:
+                        site.boyScore = 5
+                if score['girlScore'] >= biggerThan:
+                    site.girlScore = round((score['girlScore']-minus)*multiple/divide)
+                    if site.girlScore > 5:
+                        site.girlScore = 5
+                if score['childScore'] >= biggerThan:
+                    site.childrenScore = round((score['childScore']-minus)*multiple/divide)
+                    if site.childrenScore > 5:
+                        site.childrenScore = 5
+                if score['classmateScore'] >= biggerThan:
+                    site.classmateScore = round((score['classmateScore']-minus)*multiple/divide)
+                    if site.classmateScore > 5:
+                        site.classmateScore = 5
+                if score['coupleScore'] >= biggerThan:
+                    site.coupleScore = round((score['coupleScore']-minus)*multiple/divide)
+                    if site.coupleScore > 5:
+                        site.coupleScore = 5
+                if score['familyScore'] >= biggerThan:
+                    site.familyScore = round((score['familyScore']-minus)*multiple/divide)
+                    if site.familyScore > 5:
+                        site.familyScore = 5
+        for keyword in keywords:
+            if keyword['site'] == site.name:
+                site.keywords = keyword['keywords'][:5]
+                if site.score != None and site.keywords != None:# and site.score == 1:
+                    sites.append(site)
+    return render_to_response('index.html', locals())
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            return HttpResponseRedirect('/accounts/login/');
+    else:
+        form = UserCreationForm()
+        return render_to_response('registration/register.html', RequestContext(request, locals()))
